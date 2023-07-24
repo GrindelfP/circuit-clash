@@ -10,7 +10,6 @@ class FieldTest {
     void givenField_whenInitialized_thenFieldIsShownCorrectly() {
 
         Field field = new Field();
-
         System.out.println(field);
     }
 

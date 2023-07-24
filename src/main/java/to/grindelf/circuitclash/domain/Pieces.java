@@ -50,7 +50,7 @@ abstract class Piece {
         return piece.getColor() != color;
     }
 
-    protected boolean positionIsEmpty(Position position) {
+    protected boolean positionIsEmpty(Position position) { // TODO: very stupid method, redo
         return field.getPieceBy(position).getType() == PieceType.EMPTY;
     }
 

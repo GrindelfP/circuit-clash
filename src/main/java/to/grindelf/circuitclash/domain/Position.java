@@ -107,8 +107,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpUpLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() + 1) :
-                new Position(this.x() + 2, this.y() - 1);
+        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() + 2) :
+                new Position(this.x() + 1, this.y() - 2);
     }
 
     /**
@@ -118,8 +118,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpUpRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() + 1) :
-                new Position(this.x() - 2, this.y() - 1);
+        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() + 2) :
+                new Position(this.x() - 1, this.y() - 2);
     }
 
     /**
@@ -129,8 +129,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpDownLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() - 1) :
-                new Position(this.x() + 2, this.y() + 1);
+        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() - 2) :
+                new Position(this.x() + 1, this.y() + 2);
     }
 
     /**
@@ -140,8 +140,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpDownRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() - 1) :
-                new Position(this.x() - 2, this.y() + 1);
+        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() - 2) :
+                new Position(this.x() - 1, this.y() + 2);
     }
 
     /**
@@ -151,8 +151,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpLeftUp(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() + 2) :
-                new Position(this.x() + 1, this.y() - 2);
+        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() + 1) :
+                new Position(this.x() + 2, this.y() - 1);
     }
 
     /**
@@ -162,8 +162,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpRightUp(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() + 2) :
-                new Position(this.x() - 1, this.y() - 2);
+        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() + 1) :
+                new Position(this.x() - 2, this.y() - 1);
     }
 
     /**
@@ -173,8 +173,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpLeftDown(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() - 2) :
-                new Position(this.x() + 1, this.y() + 2);
+        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() - 1) :
+                new Position(this.x() + 2, this.y() + 1);
     }
 
     /**
@@ -184,8 +184,8 @@ record Position(int x, int y) {
      */
     @NotNull
     public Position jumpRightDown(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() - 2) :
-                new Position(this.x() - 1, this.y() + 2);
+        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() - 1) :
+                new Position(this.x() - 2, this.y() + 1);
     }
 
     /**
