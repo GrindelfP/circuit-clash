@@ -11,7 +11,7 @@ abstract class Piece {
     protected PieceType type;
     protected final PieceColor color;
     protected Position position;
-    private final List<Position> possiblePositions;
+    protected final List<Position> possiblePositions;
     protected Field field;
 
     public PieceType getType() {
@@ -33,7 +33,7 @@ abstract class Piece {
     public Piece(PieceType type, PieceColor color, Position position) {
         this.type = type;
         this.color = color;
-        this.possiblePositions = initialPossiblePositions(type, position, color);
+        this.possiblePositions = initialPossiblePositions(type, position);
         this.position = position;
     }
 
@@ -46,12 +46,8 @@ abstract class Piece {
     @NotNull
     protected abstract Collection<Position> possiblePositionsByType();
 
-    protected boolean isEnemyTo(@NotNull Piece piece) {
-        return piece.getColor() != color;
-    }
-
-    protected boolean positionIsEmpty(Position position) { // TODO: very stupid method, redo
-        return field.getPieceBy(position).getType() == PieceType.EMPTY;
+    protected boolean isEnemyToPieceAt(@NotNull Position position) {
+        return this.field.getPieceBy(position).getColor() != this.color;
     }
 
     private void calculatePossiblePositions() {
@@ -60,16 +56,16 @@ abstract class Piece {
     }
 
     @NotNull
-    private List<Position> initialPossiblePositions(PieceType type, Position position, PieceColor color) {
+    private List<Position> initialPossiblePositions(PieceType type, Position position) {
         List<Position> positions = new ArrayList<>();
         positions.add(position);
         if (type != PieceType.EMPTY) {
             if (type == PieceType.PAWN) {
-                positions.add(position.moveUp(color));
-                positions.add(position.moveUp(color).moveUp(color));
+                positions.add(position.moveUp());
+                positions.add(position.moveUp().moveUp());
             } else if (type == PieceType.KNIGHT) {
-                positions.add(position.jumpUpLeft(color));
-                positions.add(position.jumpUpRight(color));
+                positions.add(position.jumpUpLeft());
+                positions.add(position.jumpUpRight());
             }
         }
 
@@ -187,38 +183,34 @@ class Pawn extends Piece {
     @NotNull
     @Override
     protected Collection<Position> possiblePositionsByType() {
-        int incrementalFactor = this.color == PieceColor.WHITE ? 1 : -1;
-        // white pawns are going incrementing their
-        // y coordinate, black pawns are decrementing it
         List<Position> possiblePositions = new ArrayList<>();
 
         possiblePositions.add(this.position);
         // always adds current position because pawn can stay in place util it is replaced
         // by an enemy piece (eaten)
 
-        Position nearestMovePosition = new Position(this.position.x(), this.position.y() + incrementalFactor);
+        Position oneStepPosition = this.position.moveUp();
 
-        if (nearestMovePosition.isOnBoard() && positionIsEmpty(nearestMovePosition))
-            possiblePositions.add(nearestMovePosition);
-        // adds the next position if possible
+        if (oneStepPosition.isOnBoard() && field.isEmptyAt(oneStepPosition))
+            possiblePositions.add(oneStepPosition);
+        // adds the 1-step position if possible
 
-        if (standsOnInitialPosition()) {
-            Position twoStepPosition = new Position(this.position.x(), this.position.y() + 2 * incrementalFactor);
-            if (positionIsEmpty(twoStepPosition)) possiblePositions.add(twoStepPosition);
+        if (this.standsOnInitialPosition()) {
+            Position twoStepPosition = this.position.moveUp().moveUp();
+            if (field.isEmptyAt(twoStepPosition)) possiblePositions.add(twoStepPosition);
         }
-        // adds the next 2-step position if pawn stands on its initial position (1 for white, 6 for black)
+        // adds the next 2-step position if pawn stands on its initial position (2nd row for white, 7th row for black)
 
-        Position leftAttackPosition = new Position(this.position.x() - 1, this.position.y() + incrementalFactor);
+        Position leftAttackPosition = this.position.moveUpLeft();
         if (leftAttackPosition.isOnBoard() &&
-                !positionIsEmpty(leftAttackPosition) &&
-                isEnemyTo(field.getPieceBy(leftAttackPosition))) possiblePositions.add(leftAttackPosition);
+                !field.isEmptyAt(leftAttackPosition) &&
+                this.isEnemyToPieceAt(leftAttackPosition)) possiblePositions.add(leftAttackPosition);
         // adds the left attack position if possible
 
-        Position rightAttackPosition = new Position(this.position.x() + 1, this.position.y() + incrementalFactor);
+        Position rightAttackPosition = this.position.moveUpRight();
         if (rightAttackPosition.isOnBoard() &&
-                !positionIsEmpty(rightAttackPosition) &&
-                isEnemyTo(field.getPieceBy(rightAttackPosition)))
-            possiblePositions.add(rightAttackPosition);
+                !field.isEmptyAt(rightAttackPosition) &&
+                this.isEnemyToPieceAt(rightAttackPosition)) possiblePositions.add(rightAttackPosition);
         // adds the right attack position if possible
 
         return possiblePositions;

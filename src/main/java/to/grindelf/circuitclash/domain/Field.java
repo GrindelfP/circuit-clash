@@ -1,8 +1,8 @@
 package to.grindelf.circuitclash.domain;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,32 +22,18 @@ final class Field {
     private final List<List<Piece>> gameBoard;
 
     /**
-     * Fixed lists of white pieces ordered for the initial state of the game.
+     * Fixed lists of pieces ordered for the initial state of the game.
      */
-    private final List<PieceType> whitePiecesOrdered = Arrays.asList(
-            PieceType.ROOK,
-            PieceType.KNIGHT,
-            PieceType.BISHOP,
-            PieceType.QUEEN,
-            PieceType.KING,
-            PieceType.BISHOP,
-            PieceType.KNIGHT,
-            PieceType.ROOK
-    );
-
-    /**
-     * Fixed lists of black pieces ordered for the initial state of the game.
-     */
-    private final List<PieceType> blackPiecesOrdered = Arrays.asList(
-            PieceType.ROOK,
-            PieceType.KNIGHT,
-            PieceType.BISHOP,
-            PieceType.KING,
-            PieceType.QUEEN,
-            PieceType.BISHOP,
-            PieceType.KNIGHT,
-            PieceType.ROOK
-    );
+    private final List<PieceType> piecesOrdered = new ArrayList<>() {{
+        add(PieceType.ROOK);
+        add(PieceType.KNIGHT);
+        add(PieceType.BISHOP);
+        add(PieceType.QUEEN);
+        add(PieceType.KING);
+        add(PieceType.BISHOP);
+        add(PieceType.KNIGHT);
+        add(PieceType.ROOK);
+    }};
 
     /**
      * Default constructor, which initializes the game field always in the same way
@@ -73,12 +59,8 @@ final class Field {
         gameBoard.add(eighthRow); // add eighth (black figures) row of the game field
     }
 
-    public List<PieceType> getWhitePiecesOrdered() {
-        return whitePiecesOrdered;
-    }
-
-    public List<PieceType> getBlackPiecesOrdered() {
-        return blackPiecesOrdered;
+    public List<PieceType> getPiecesOrdered() {
+        return piecesOrdered;
     }
 
     /**
@@ -89,6 +71,15 @@ final class Field {
     @NotNull
     public Piece getPieceBy(@NotNull Position position) {
         return gameBoard.get(position.x()).get(position.y());
+    }
+
+    /**
+     * Checks if the cell at the provided position is empty.
+     * @param position is the position of the cell to be checked.
+     * @return true if the cell at the provided position is empty, false otherwise.
+     */
+    public boolean isEmptyAt(@NotNull Position position) {
+        return this.gameBoard.get(position.x()).get(position.y()).getType() == PieceType.EMPTY;
     }
 
     /**
@@ -118,16 +109,16 @@ final class Field {
     @NotNull
     private ArrayList<Piece> initializeRowOfFigures(@NotNull PieceColor pieceColor) {
         ArrayList<Piece> rowOfFigures = new ArrayList<>();
-        List<PieceType> types = pieceColor == PieceColor.WHITE ? whitePiecesOrdered : blackPiecesOrdered;
         int row = pieceColor == PieceColor.WHITE ? 0 : 7;
-        rowOfFigures.add(new Rook(types.get(0), pieceColor, new Position(row, 0)));
-        rowOfFigures.add(new Knight(types.get(1), pieceColor, new Position(row, 1)));
-        rowOfFigures.add(new Bishop(types.get(2), pieceColor, new Position(row, 2)));
-        rowOfFigures.add(new Queen(types.get(3), pieceColor, new Position(row, 3)));
-        rowOfFigures.add(new King(types.get(4), pieceColor, new Position(row, 4)));
-        rowOfFigures.add(new Bishop(types.get(5), pieceColor, new Position(row, 5)));
-        rowOfFigures.add(new Knight(types.get(6), pieceColor, new Position(row, 6)));
-        rowOfFigures.add(new Rook(types.get(7), pieceColor, new Position(row, 7)));
+        MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
+        rowOfFigures.add(new Rook(piecesOrdered.get(0), pieceColor, new Position(row, 0, movementMode)));
+        rowOfFigures.add(new Knight(piecesOrdered.get(1), pieceColor, new Position(row, 1, movementMode)));
+        rowOfFigures.add(new Bishop(piecesOrdered.get(2), pieceColor, new Position(row, 2, movementMode)));
+        rowOfFigures.add(new Queen(piecesOrdered.get(3), pieceColor, new Position(row, 3, movementMode)));
+        rowOfFigures.add(new King(piecesOrdered.get(4), pieceColor, new Position(row, 4, movementMode)));
+        rowOfFigures.add(new Bishop(piecesOrdered.get(5), pieceColor, new Position(row, 5, movementMode)));
+        rowOfFigures.add(new Knight(piecesOrdered.get(6), pieceColor, new Position(row, 6, movementMode)));
+        rowOfFigures.add(new Rook(piecesOrdered.get(7), pieceColor, new Position(row, 7, movementMode)));
 
         return rowOfFigures;
     }
@@ -140,8 +131,9 @@ final class Field {
     @NotNull
     private ArrayList<Piece> initializeRowOfPawns(PieceColor pieceColor) {
         ArrayList<Piece> rowOfPawns = new ArrayList<>();
+        MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
         for (int i = 0; i < 8; i++) {
-            rowOfPawns.add(new Pawn(PieceType.PAWN, pieceColor, new Position(1, i)));
+            rowOfPawns.add(new Pawn(PieceType.PAWN, pieceColor, new Position(1, i, movementMode)));
         }
 
         return rowOfPawns;
@@ -155,7 +147,7 @@ final class Field {
     private ArrayList<Piece> initializeEmptyRow() {
         ArrayList<Piece> emptyRow = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            emptyRow.add(new Empty(PieceType.EMPTY, PieceColor.NONE, new Position(2, i)));
+            emptyRow.add(new Empty(PieceType.EMPTY, PieceColor.NONE, new Position(2, i, MovementMode.NORMAL)));
         }
 
         return emptyRow;

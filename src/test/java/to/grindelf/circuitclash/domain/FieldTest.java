@@ -19,7 +19,7 @@ class FieldTest {
         Field field = new Field();
 
         for (int i = 0; i < 8; i++) {
-            assertThat(field.getPieceBy(new Position(0, i)).getType()).isEqualTo(field.getWhitePiecesOrdered().get(i));
+            assertThat(field.getPieceBy(new Position(0, i)).getType()).isEqualTo(field.getPiecesOrdered().get(i));
             assertThat(field.getPieceBy(new Position(0, i)).getColor()).isEqualTo(PieceColor.WHITE);
         } // checking the first row
 
@@ -41,7 +41,7 @@ class FieldTest {
         } // checking the seventh row
 
         for (int i = 0; i < 8; i++) {
-            assertThat(field.getPieceBy(new Position(7, i)).getType()).isEqualTo(field.getBlackPiecesOrdered().get(i));
+            assertThat(field.getPieceBy(new Position(7, i)).getType()).isEqualTo(field.getPiecesOrdered().get(i));
             assertThat(field.getPieceBy(new Position(7, i)).getColor()).isEqualTo(PieceColor.BLACK);
         } // checking the eighth row
     }

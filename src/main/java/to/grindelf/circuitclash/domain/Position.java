@@ -1,11 +1,35 @@
 package to.grindelf.circuitclash.domain;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-record Position(int x, int y) {
+record Position(int x, int y, MovementMode movementMode) {
+
+    /**
+     * Method wrapping the constructor of the Position instance with
+     * the same movement mode as the current one.
+     *
+     * @return new Position instance with the same movement mode as the current one.
+     */
+    @NotNull
+    @Contract("_, _ -> new")
+    private Position positionOfSameMovementMode(int x, int y) {
+        return new Position(x, y, this.movementMode);
+    }
+
+    /**
+     * Constructor of the Position instance with the NORMAL movement mode. It is used for tests.
+     *
+     * @param x the x coordinate of the position.
+     * @param y the y coordinate of the position.
+     */
+    public Position(int x, int y) {
+        this(x, y, MovementMode.NORMAL);
+    }
 
     /**
      * Checks if the position is on the board.
+     *
      * @return true if the position is on the board, false otherwise.
      */
     public boolean isOnBoard() {
@@ -14,182 +38,183 @@ record Position(int x, int y) {
 
     /**
      * Representation of a movement up by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveUp(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x(), this.y() + 1) :
-                new Position(this.x(), this.y() - 1);
+    public Position moveUp() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x, this.y + 1) :
+                positionOfSameMovementMode(this.x, this.y - 1);
     }
 
     /**
      * Representation of a movement down by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveDown(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x(), this.y() - 1) :
-                new Position(this.x(), this.y() + 1);
+    public Position moveDown() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x, this.y - 1) :
+                positionOfSameMovementMode(this.x, this.y + 1);
     }
 
     /**
      * Representation of a movement left by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y()) :
-                new Position(this.x() + 1, this.y());
+    public Position moveLeft() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 1, this.y) :
+                positionOfSameMovementMode(this.x + 1, this.y);
     }
 
     /**
      * Representation of a movement right by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y()) :
-                new Position(this.x() - 1, this.y());
+    public Position moveRight() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 1, this.y) :
+                positionOfSameMovementMode(this.x - 1, this.y);
     }
 
     /**
      * Representation of a movement up left by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveUpLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() + 1) :
-                new Position(this.x() + 1, this.y() - 1);
+    public Position moveUpLeft() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 1, this.y + 1) :
+                positionOfSameMovementMode(this.x + 1, this.y - 1);
     }
 
     /**
      * Representation of a movement up right by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveUpRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() + 1) :
-                new Position(this.x() - 1, this.y() - 1);
+    public Position moveUpRight() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 1, this.y + 1) :
+                positionOfSameMovementMode(this.x - 1, this.y - 1);
     }
 
     /**
      * Representation of a movement down left by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveDownLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() - 1) :
-                new Position(this.x() + 1, this.y() + 1);
+    public Position moveDownLeft() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 1, this.y - 1) :
+                positionOfSameMovementMode(this.x + 1, this.y + 1);
     }
 
     /**
      * Representation of a movement down right by one cell.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position moveDownRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() - 1) :
-                new Position(this.x() - 1, this.y() + 1);
+    public Position moveDownRight() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 1, this.y - 1) :
+                positionOfSameMovementMode(this.x - 1, this.y + 1);
     }
 
     /**
      * Representation of a special move of a Knight, first up then left.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpUpLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() + 2) :
-                new Position(this.x() + 1, this.y() - 2);
+    public Position jumpUpLeft() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 1, this.y + 2) :
+                positionOfSameMovementMode(this.x + 1, this.y - 2);
     }
 
     /**
      * Representation of a special move of a Knight, first up then right.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpUpRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() + 2) :
-                new Position(this.x() - 1, this.y() - 2);
+    public Position jumpUpRight() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 1, this.y + 2) :
+                positionOfSameMovementMode(this.x - 1, this.y - 2);
     }
 
     /**
      * Representation of a special move of a Knight, first down then left.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpDownLeft(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 1, this.y() - 2) :
-                new Position(this.x() + 1, this.y() + 2);
+    public Position jumpDownLeft() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 1, this.y - 2) :
+                positionOfSameMovementMode(this.x + 1, this.y + 2);
     }
 
     /**
      * Representation of a special move of a Knight, first down then right.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpDownRight(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 1, this.y() - 2) :
-                new Position(this.x() - 1, this.y() + 2);
+    public Position jumpDownRight() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 1, this.y - 2) :
+                positionOfSameMovementMode(this.x - 1, this.y + 2);
     }
 
     /**
      * Representation of a special move of a Knight, first left then up.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpLeftUp(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() + 1) :
-                new Position(this.x() + 2, this.y() - 1);
+    public Position jumpLeftUp() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 2, this.y + 1) :
+                positionOfSameMovementMode(this.x + 2, this.y - 1);
     }
 
     /**
      * Representation of a special move of a Knight, first right then up.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpRightUp(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() + 1) :
-                new Position(this.x() - 2, this.y() - 1);
+    public Position jumpRightUp() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 2, this.y + 1) :
+                positionOfSameMovementMode(this.x - 2, this.y - 1);
     }
 
     /**
      * Representation of a special move of a Knight, first left then down.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpLeftDown(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() - 2, this.y() - 1) :
-                new Position(this.x() + 2, this.y() + 1);
+    public Position jumpLeftDown() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x - 2, this.y - 1) :
+                positionOfSameMovementMode(this.x + 2, this.y + 1);
     }
 
     /**
      * Representation of a special move of a Knight, first right then down.
-     * @param color color of the piece which influences the direction of the movement.
+     *
      * @return new position after the movement.
      */
     @NotNull
-    public Position jumpRightDown(PieceColor color) {
-        return color == PieceColor.WHITE ? new Position(this.x() + 2, this.y() - 1) :
-                new Position(this.x() - 2, this.y() + 1);
+    public Position jumpRightDown() {
+        return this.movementMode == MovementMode.NORMAL ? positionOfSameMovementMode(this.x + 2, this.y - 1) :
+                positionOfSameMovementMode(this.x - 2, this.y + 1);
     }
 
     /**
      * Overrides equals method for the Position class.
+     *
      * @param o the reference object with which to compare.
      * @return true if the objects are equal, false otherwise.
      */
@@ -201,4 +226,8 @@ record Position(int x, int y) {
 
         return x == position.x && y == position.y;
     }
+}
+
+enum MovementMode {
+    NORMAL, REVERSED
 }

@@ -98,12 +98,4 @@ class PieceTest {
         piece.makeMove(new Move(new Position(0, 0), new Position(0, 6)));
         assertThat(piece.getPosition()).isEqualTo(new Position(0, 6));
     }
-
-    @Test
-    void givenWhitePawn_whenCheckedWithBlackPawn_thenPieceIsEnemy() {
-        Piece whitePawn = new Pawn(PieceType.PAWN, PieceColor.WHITE, new Position(0, 0));
-        Piece blackPawn = new Pawn(PieceType.PAWN, PieceColor.BLACK, new Position(0, 1));
-
-        assertThat(whitePawn.isEnemyTo(blackPawn)).isTrue();
-    }
 }
