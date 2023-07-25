@@ -64,9 +64,10 @@ final class Field {
     }
 
     /**
-     * Returns a specific piece from the board by provided position.
-     * @param position is the position of the piece to be returned.
-     * @return the piece from the board by provided position.
+     * Returns a specific piece from the board by provided movement.
+     *
+     * @param position is the movement of the piece to be returned.
+     * @return the piece from the board by provided movement.
      */
     @NotNull
     public Piece getPieceBy(@NotNull Position position) {
@@ -74,12 +75,21 @@ final class Field {
     }
 
     /**
-     * Checks if the cell at the provided position is empty.
-     * @param position is the position of the cell to be checked.
-     * @return true if the cell at the provided position is empty, false otherwise.
+     * Checks if the cell at the provided movement is empty.
+     * @param position is the movement of the cell to be checked.
+     * @return true if the cell at the provided movement is empty, false otherwise.
      */
     public boolean isEmptyAt(@NotNull Position position) {
         return this.gameBoard.get(position.x()).get(position.y()).getType() == PieceType.EMPTY;
+    }
+
+    /**
+     * Checks if the cell at the provided movement is empty.
+     * @param position is the movement of the cell to be checked.
+     * @return true if the cell at the provided movement is empty, false otherwise.
+     */
+    public boolean isOccupiedAt(@NotNull Position position) {
+        return this.gameBoard.get(position.x()).get(position.y()).getType() != PieceType.EMPTY;
     }
 
     /**
@@ -111,14 +121,14 @@ final class Field {
         ArrayList<Piece> rowOfFigures = new ArrayList<>();
         int row = pieceColor == PieceColor.WHITE ? 0 : 7;
         MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
-        rowOfFigures.add(new Rook(piecesOrdered.get(0), pieceColor, new Position(row, 0, movementMode)));
-        rowOfFigures.add(new Knight(piecesOrdered.get(1), pieceColor, new Position(row, 1, movementMode)));
-        rowOfFigures.add(new Bishop(piecesOrdered.get(2), pieceColor, new Position(row, 2, movementMode)));
-        rowOfFigures.add(new Queen(piecesOrdered.get(3), pieceColor, new Position(row, 3, movementMode)));
-        rowOfFigures.add(new King(piecesOrdered.get(4), pieceColor, new Position(row, 4, movementMode)));
-        rowOfFigures.add(new Bishop(piecesOrdered.get(5), pieceColor, new Position(row, 5, movementMode)));
-        rowOfFigures.add(new Knight(piecesOrdered.get(6), pieceColor, new Position(row, 6, movementMode)));
-        rowOfFigures.add(new Rook(piecesOrdered.get(7), pieceColor, new Position(row, 7, movementMode)));
+        rowOfFigures.add(new Rook(pieceColor, new Position(row, 0)));
+        rowOfFigures.add(new Knight(pieceColor, new Position(row, 1)));
+        rowOfFigures.add(new Bishop(pieceColor, new Position(row, 2)));
+        rowOfFigures.add(new Queen(pieceColor, new Position(row, 3)));
+        rowOfFigures.add(new King(pieceColor, new Position(row, 4)));
+        rowOfFigures.add(new Bishop(pieceColor, new Position(row, 5)));
+        rowOfFigures.add(new Knight(pieceColor, new Position(row, 6)));
+        rowOfFigures.add(new Rook(pieceColor, new Position(row, 7)));
 
         return rowOfFigures;
     }
@@ -133,7 +143,7 @@ final class Field {
         ArrayList<Piece> rowOfPawns = new ArrayList<>();
         MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
         for (int i = 0; i < 8; i++) {
-            rowOfPawns.add(new Pawn(PieceType.PAWN, pieceColor, new Position(1, i, movementMode)));
+            rowOfPawns.add(new Pawn(pieceColor, new Position(1, i)));
         }
 
         return rowOfPawns;
@@ -147,7 +157,7 @@ final class Field {
     private ArrayList<Piece> initializeEmptyRow() {
         ArrayList<Piece> emptyRow = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            emptyRow.add(new Empty(PieceType.EMPTY, PieceColor.NONE, new Position(2, i, MovementMode.NORMAL)));
+            emptyRow.add(new Empty(new Position(2,  i)));
         }
 
         return emptyRow;
