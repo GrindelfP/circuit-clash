@@ -120,7 +120,6 @@ final class Field {
     private ArrayList<Piece> initializeRowOfFigures(@NotNull PieceColor pieceColor) {
         ArrayList<Piece> rowOfFigures = new ArrayList<>();
         int row = pieceColor == PieceColor.WHITE ? 0 : 7;
-        MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
         rowOfFigures.add(new Rook(pieceColor, new Position(row, 0)));
         rowOfFigures.add(new Knight(pieceColor, new Position(row, 1)));
         rowOfFigures.add(new Bishop(pieceColor, new Position(row, 2)));
@@ -141,10 +140,7 @@ final class Field {
     @NotNull
     private ArrayList<Piece> initializeRowOfPawns(PieceColor pieceColor) {
         ArrayList<Piece> rowOfPawns = new ArrayList<>();
-        MovementMode movementMode = pieceColor == PieceColor.WHITE ? MovementMode.NORMAL : MovementMode.REVERSED;
-        for (int i = 0; i < 8; i++) {
-            rowOfPawns.add(new Pawn(pieceColor, new Position(1, i)));
-        }
+        for (int i = 0; i < 8; i++) rowOfPawns.add(new Pawn(pieceColor, new Position(1, i)));
 
         return rowOfPawns;
     }
@@ -156,9 +152,7 @@ final class Field {
     @NotNull
     private ArrayList<Piece> initializeEmptyRow() {
         ArrayList<Piece> emptyRow = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            emptyRow.add(new Empty(new Position(2,  i)));
-        }
+        for (int i = 0; i < 8; i++) emptyRow.add(new Empty(new Position(2,  i)));
 
         return emptyRow;
     }

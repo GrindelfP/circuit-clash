@@ -103,4 +103,9 @@ class PieceTest {
         piece.move(Arrays.asList(Movement::moveUp, Movement::moveUp, Movement::moveUp));
         assertThat(piece.getPosition()).isEqualTo(new Position(0, 3));
     }
+
+    @Test
+    void move() {
+
+    }
 }
