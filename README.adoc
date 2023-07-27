@@ -1,9 +1,14 @@
 = Circuit Clash
 
 == Description
-This project is a video game where you watch computer
-opponents playing a chess game. You can adjust the settings
-of each opponent to run different game situations. The goal of
-this project is to learn new technologies for programming a
-strategic video game and technologies for creating AI-pretending
-computer “gamers”, playing the game of chess.
+This project is a video game where you watch computer opponents playing a chess game. You can adjust the settings of each opponent to run different game situations. The goal of this project is to learn new technologies for programming a strategic video game and technologies for creating AI-pretending computer “gamers”, playing the game of chess.
+
+== The project structure
+
+The game contains of the following parts:
+
+1. The Game Processor, which is a main control module of the project. Its aim is to maintain the game flow: give participants of the match permission to make moves, update the chessboard state and define the end of the match and the winner.
+2. Chessboard: a representation of a state of a gameboard, which contains all the playable pieces and on which the game takes action.
+3. Pieces: all the playable pieces with their text and visual representation.
+4. The Referee: a set of checks which are laid upon the player's choice about movement of each particular piece (these checks are dictated by the rules of the game). This module should prevent players from making a move which violates the rules of the game of chess.
+5. The Player: a system which imitates a player of chess, which will play the game.
