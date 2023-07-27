@@ -6,9 +6,19 @@ import java.util.Map;
 import static to.grindelf.circuitclash.domain.PieceColor.BLACK;
 import static to.grindelf.circuitclash.domain.PieceColor.WHITE;
 
+/**
+ * Representation of a chessboard, on which the game is played.
+ */
 class Chessboard {
+
+    /**
+     * State of the chessboard, represented as a map of positions (key) and pieces (values).
+     */
     private final Map<Position, Piece> state;
 
+    /**
+     * Initializes a chessboard with all pieces on their initial positions.
+     */
     public Chessboard() {
         state = new HashMap<>();
         initializeFiguresRow(WHITE);
@@ -17,10 +27,20 @@ class Chessboard {
         initializeFiguresRow(BLACK);
     }
 
+    /**
+     * Function returns a piece at given position.
+     * @param position is a position of a required piece.
+     * @return a piece at given position.
+     */
     public Piece getPieceAt(Position position) {
         return state.get(position);
     }
 
+    /**
+     * Function initializes a sequence of figures on the chessboard's 1st (for white) and
+     * 8th (for black) row.
+     * @param color is a color of figures to initialize.
+     */
     private void initializeFiguresRow(PieceColor color) {
         Map<Position, Piece> figures = new HashMap<>();
         int rowIndex = color == WHITE ? 0 : 7;
@@ -37,6 +57,11 @@ class Chessboard {
         state.putAll(figures);
     }
 
+    /**
+     * Function initializes a sequence of pawns on the chessboard's 2nd (for white) and
+     * 7th (for black) row.
+     * @param color is a color of pawns to initialize.
+     */
     private void initializePawnRow(PieceColor color) {
         Map<Position, Piece> pawns = new HashMap<>();
 
@@ -47,6 +72,10 @@ class Chessboard {
         state.putAll(pawns);
     }
 
+    /**
+     * Overrides toString method to print a chessboard.
+     * @return a string representation of a chessboard.
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -70,5 +99,4 @@ class Chessboard {
 
         return stringBuilder.toString();
     }
-
 }
