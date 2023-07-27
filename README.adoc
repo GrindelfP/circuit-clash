@@ -1,0 +1,9 @@
+= Circuit Clash
+
+== Description
+This project is a video game where you watch computer
+opponents playing a chess game. You can adjust the settings
+of each opponent to run different game situations. The goal of
+this project is to learn new technologies for programming a
+strategic video game and technologies for creating AI-pretending
+computer “gamers”, playing the game of chess.
