@@ -1,56 +1,81 @@
 package to.grindelf.circuitclash.domain;
 
+import java.util.Objects;
 
 /**
- * Representation of a position of a piece on the game field.
- * Characterizes the piece's position by its x and y coordinates.
- *
- * @param x The x coordinate of the position.
- * @param y The y coordinate of the position.
+ * Representation of a position of a piece on the chessboard. Position is
+ * depicted as a Coordinates object.
  */
-record Position(int x, int y) {
+class Position {
 
     /**
-     * Position constructor. Checks if the provided position is on the board.
-     *
-     * @param x the x coordinate of the position.
-     * @param y the y coordinate of the position.
+     * Coordinates of a position.
      */
-    Position(int x, int y) {
-        if (coordinatesAreOnBoard(x, y)) {
-            this.x = x;
-            this.y = y;
-        } else {
-            throw new IllegalArgumentException("Position is not on the board");
+    private final Coordinates coordinates;
+
+    /**
+     * Initializes a position with given coordinates.
+     * @param x is a number of column, starting from 0.
+     * @param y is a number of row, starting from 0.
+     */
+    public Position(int x, int y) {
+        coordinates = new Coordinates(x, y);
+    }
+
+    /**
+     * Returns numerical coordinates of a position.
+     * @return Coordinates object.
+     */
+    public Coordinates getNumerical() {
+        return coordinates;
+    }
+
+    /**
+     * Returns alphanumerical coordinates of a position.
+     * @return a string representation of a position in traditional chess form
+     * (a2, b5, h8, etc.).
+     */
+    public String getAlphanumerical() {
+        return String.format("%c%d", 'a' + this.x(), this.y() + 1);
+    }
+
+    /**
+     * Returns x coordinate of this position.
+     * @return x coordinate.
+     */
+    private int x() {
+        return this.coordinates.x();
+    }
+
+    /**
+     * Returns y coordinate of this position.
+     * @return y coordinate.
+     */
+    private int y() {
+        return this.coordinates.y();
+    }
+
+    /**
+     * Overrides equals method to compare two positions.
+     * @param object is an object to compare with.
+     * @return true if positions are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object) {
+        boolean isEqual = false;
+
+        if (object instanceof Position other) {
+            isEqual = this.x() == other.x() && this.y() == other.y();
         }
+        return isEqual;
     }
 
     /**
-     * Getter for the x coordinate of the position.
-     *
-     * @return the x coordinate of the position.
+     * Overrides hashCode method to compare two positions.
+     * @return hash code of a position.
      */
     @Override
-    public int x() {
-        return x;
-    }
-
-    /**
-     * Getter for the y coordinate of the position.
-     *
-     * @return the y coordinate of the position.
-     */
-    @Override
-    public int y() {
-        return y;
-    }
-
-    /**
-     * Checks if the coordinates are on the board.
-     *
-     * @return true if the coordinates are on the board, false otherwise.
-     */
-    private boolean coordinatesAreOnBoard(int x, int y) {
-        return x > 0 && x < 8 && y > 0 && y < 8;
+    public int hashCode() {
+        return Objects.hash(this.x(), this.y());
     }
 }
