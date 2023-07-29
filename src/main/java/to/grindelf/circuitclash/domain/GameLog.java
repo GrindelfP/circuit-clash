@@ -17,12 +17,24 @@ import java.util.List;
  */
 class GameLog {
 
+    /**
+     * A list of log entries.
+     */
     private final List<LogEntry> entries;
+    /**
+     * A file to write to log entries.
+     */
     private final File logFile;
 
+    /**
+     * Initializes a game log objet.
+     */
     public GameLog() {
         this.entries = new ArrayList<>();
-        this.logFile = new File("game_log_" + new Date().toString().replace(' ', '_') + ".log");
+        this.logFile = new File("game_log_" +
+                new Date().toString().replace(' ', '_') +
+                ".log"
+        );
     }
 
     /**
@@ -45,7 +57,7 @@ class GameLog {
      * Updates a game log with a new move and writes the new log entry.
      *
      * @param move       is a description of a move to be made.
-     * @param movedPiece is a piece that was moved.
+     * @param movedPiece
      * @throws IOException if an error occurs while writing to a file.
      */
     public void update(Move move, Piece movedPiece) throws IOException {
@@ -64,6 +76,8 @@ class GameLog {
         LogEntry lastLogEntry = this.entries.get(entries.size() - 1);
 
         if (this.entries.size() == 1) writeLogHeaderToFile();
+        // adding header note with information about the date when the game was played
+        // before the first log entry is written
 
         lastLogEntry.writeToTextFile(this.logFile);
     }

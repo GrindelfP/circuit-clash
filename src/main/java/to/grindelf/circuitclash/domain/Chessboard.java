@@ -1,5 +1,9 @@
 package to.grindelf.circuitclash.domain;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import to.grindelf.circuitclash.utils.WrongMoveException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +13,7 @@ import static to.grindelf.circuitclash.domain.PieceColor.WHITE;
 /**
  * Representation of a chessboard, on which the game is played.
  */
-class Chessboard {
+class Chessboard implements BoardStateRearranger {
 
     /**
      * State of the chessboard, represented as a map of positions (key) and pieces (values).
@@ -29,6 +33,7 @@ class Chessboard {
 
     /**
      * Function returns a piece at given position.
+     *
      * @param position is a position of a required piece.
      * @return a piece at given position.
      */
@@ -37,8 +42,33 @@ class Chessboard {
     }
 
     /**
+     * Moves a piece on the chessboard.
+     *
+     * @param move is a description of a move to be made.
+     * @return
+     */
+    @Override
+    public Piece movePiece(@NotNull Move move) throws WrongMoveException {
+        if (this.state.get(move.from()) == null) throw new WrongMoveException("You can't move a non-existing piece.");
+        validateBySituation(move);
+        this.state.put(move.to(), this.state.get(move.from()));
+        this.state.remove(move.from());
+
+        return this.state.get(move.to());
+    }
+
+    @Contract(pure = true)
+    private void validateBySituation(@NotNull Move move) throws WrongMoveException {
+        if (this.state.get(move.to()) != null && this.state.get(move.to()).color == this.state.get(move.from()).color) {
+            throw new WrongMoveException("You can't move your piece on your piece.");
+        }
+    }
+
+
+    /**
      * Function initializes a sequence of figures on the chessboard's 1st (for white) and
      * 8th (for black) row.
+     *
      * @param color is a color of figures to initialize.
      */
     private void initializeFiguresRow(PieceColor color) {
@@ -60,6 +90,7 @@ class Chessboard {
     /**
      * Function initializes a sequence of pawns on the chessboard's 2nd (for white) and
      * 7th (for black) row.
+     *
      * @param color is a color of pawns to initialize.
      */
     private void initializePawnRow(PieceColor color) {
@@ -74,6 +105,7 @@ class Chessboard {
 
     /**
      * Overrides toString method to print a chessboard.
+     *
      * @return a string representation of a chessboard.
      */
     @Override

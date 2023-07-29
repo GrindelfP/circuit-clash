@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
  * Class for describing a move. A move contains information from where
  * a piece is moved and where it is moved to.
  */
-record Move(Position from, Position to) {
+public record Move(Position from, Position to) {
 
     /**
      * Overrides the toString method and generates a string representation of a move.

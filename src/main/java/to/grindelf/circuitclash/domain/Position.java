@@ -6,7 +6,7 @@ import java.util.Objects;
  * Representation of a position of a piece on the chessboard. Position is
  * depicted as a Coordinates object.
  */
-class Position {
+public class Position {
 
     /**
      * Coordinates of a position.

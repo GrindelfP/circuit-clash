@@ -11,7 +11,7 @@ import static to.grindelf.circuitclash.domain.PieceType.*;
 /**
  * Representation of a chess piece.
  */
-abstract class Piece {
+public abstract class Piece {
 
     /**
      * Piece type.
@@ -67,6 +67,10 @@ abstract class Piece {
         result = 31 * result + (color != null ? color.hashCode() : 0);
 
         return result;
+    }
+
+    public PieceType type() {
+        return type;
     }
 }
 

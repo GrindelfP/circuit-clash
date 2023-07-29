@@ -5,5 +5,5 @@ package to.grindelf.circuitclash.domain;
  * @param x is a number of column, starting from 0.
  * @param y is a number of row, starting from 0.
  */
-record Coordinates(int x, int y) {
+public record Coordinates(int x, int y) {
 }
