@@ -1,4 +1,4 @@
-package to.grindelf.circuitclash.utils;
+package to.grindelf.circuitclash.errors;
 
 public class RulesViolationException extends Exception {
 

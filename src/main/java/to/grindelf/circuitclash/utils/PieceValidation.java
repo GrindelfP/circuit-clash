@@ -3,6 +3,7 @@ package to.grindelf.circuitclash.utils;
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.circuitclash.domain.Move;
 import to.grindelf.circuitclash.domain.PieceType;
+import to.grindelf.circuitclash.errors.RulesViolationException;
 
 /**
  * Interface for validating moves relative to the rules of a chess game.

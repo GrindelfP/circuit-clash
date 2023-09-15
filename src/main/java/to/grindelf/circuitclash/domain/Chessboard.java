@@ -2,7 +2,8 @@ package to.grindelf.circuitclash.domain;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import to.grindelf.circuitclash.utils.WrongMoveException;
+import to.grindelf.circuitclash.errors.WrongMoveException;
+import to.grindelf.circuitclash.visualization.BoardVisualizer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,25 +111,6 @@ class Chessboard implements BoardStateRearranger {
      */
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("  +---+---+---+---+---+---+---+---+\n");
-
-        for (int i = 7; i >= 0; i--) {
-            stringBuilder.append(i + 1).append(" |");
-            for (int j = 0; j < 8; j++) {
-                Position position = new Position(j, i);
-                Piece piece = state.get(position);
-                if (piece == null) {
-                    stringBuilder.append("   |");
-                } else {
-                    stringBuilder.append(" ").append(piece).append(" |");
-                }
-            }
-            stringBuilder.append("\n  +---+---+---+---+---+---+---+---+\n");
-        }
-
-        stringBuilder.append("    a   b   c   d   e   f   g   h  ");
-
-        return stringBuilder.toString();
+        return BoardVisualizer.visualizeAsString(this.state);
     }
 }

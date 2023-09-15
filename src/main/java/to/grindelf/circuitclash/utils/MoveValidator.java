@@ -3,6 +3,8 @@ package to.grindelf.circuitclash.utils;
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.circuitclash.domain.Move;
 import to.grindelf.circuitclash.domain.PieceType;
+import to.grindelf.circuitclash.errors.RulesViolationException;
+import to.grindelf.circuitclash.errors.WrongMoveException;
 
 public class MoveValidator implements PieceValidation, BoardValidation {
 

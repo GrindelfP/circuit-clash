@@ -2,6 +2,7 @@ package to.grindelf.circuitclash.utils;
 
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.circuitclash.domain.Move;
+import to.grindelf.circuitclash.errors.WrongMoveException;
 
 /**
  * Interface for validating moves relative to the chessboard.

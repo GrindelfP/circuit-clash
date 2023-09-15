@@ -2,7 +2,7 @@ package to.grindelf.circuitclash.domain;
 
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.circuitclash.utils.MoveValidator;
-import to.grindelf.circuitclash.utils.WrongMoveException;
+import to.grindelf.circuitclash.errors.WrongMoveException;
 
 import java.io.IOException;
 import java.util.Random;

@@ -1,7 +1,7 @@
 package to.grindelf.circuitclash.domain;
 
 import org.junit.jupiter.api.Test;
-import to.grindelf.circuitclash.utils.WrongMoveException;
+import to.grindelf.circuitclash.errors.WrongMoveException;
 
 import java.io.IOException;
 

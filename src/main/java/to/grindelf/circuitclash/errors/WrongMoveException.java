@@ -1,4 +1,4 @@
-package to.grindelf.circuitclash.utils;
+package to.grindelf.circuitclash.errors;
 
 /**
  * Exception for wrong chess moves.

@@ -15,4 +15,6 @@ module to.grindelf.circuitclash {
     exports to.grindelf.circuitclash;
     exports to.grindelf.circuitclash.controllers;
     opens to.grindelf.circuitclash.controllers to javafx.fxml;
+
+    exports to.grindelf.circuitclash.domain;
 }
